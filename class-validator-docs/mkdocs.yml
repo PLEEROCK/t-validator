@@ -1,0 +1,60 @@
+site_name: Class Validator Documentation
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - installation.md
+    - usage.md
+  - Validation:
+    - decorators.md
+    - messages.md
+    - arrays.md
+    - nested-objects.md
+    - promises.md
+    - inheritance.md
+    - conditional.md
+  - Advanced:
+    - whitelisting.md
+    - context.md
+    - groups.md
+    - custom-validation.md
+    - service-container.md
+  - API Reference:
+    - validation-decorators.md
+    - manual-validation.md
