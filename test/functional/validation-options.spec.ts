@@ -19,6 +19,7 @@ import {
   ValidationError,
   ValidationOptions,
   ValidatorConstraintInterface,
+  isValidationOptions,
 } from '../../src';
 
 const validator = new Validator();
@@ -1303,6 +1304,15 @@ describe('validateIf', () => {
   }
 
   describe('should validate if validateIf return true.', () => {
+    it('should be true', () => {
+      const result = isValidationOptions({
+        validateIf: (obj: MyClass, value) => {
+          return obj.someOtherProperty;
+        }
+      });
+      expect(result).toEqual(true);
+    });
+
     it('should only validate min', () => {
       const model = new MyClass();
       model.someProperty = 4;
