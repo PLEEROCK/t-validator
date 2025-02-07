@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strict": false,
     "strictPropertyInitialization": false,
-    "sourceMap": false,
+    "sourceMap": true,
     "removeComments": true,
     "noImplicitAny": false,
   },

@@ -250,6 +250,20 @@ export class ValidationExecutor {
 
   private customValidations(object: object, value: any, metadatas: ValidationMetadata[], error: ValidationError): void {
     metadatas.forEach(metadata => {
+      const getValidationArguments = () => {
+        const validationArguments: ValidationArguments = {
+          targetName: object.constructor ? (object.constructor as any).name : undefined,
+          property: metadata.propertyName,
+          object: object,
+          value: value,
+          constraints: metadata.constraints,
+        };
+        return validationArguments;
+      };
+      if (metadata.validateIf) {
+        const validateIf = metadata.validateIf(object, value);
+        if (!validateIf) return;
+      }
       this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls).forEach(customConstraintMetadata => {
         if (customConstraintMetadata.async && this.ignoreAsyncValidations) return;
         if (
@@ -259,13 +273,7 @@ export class ValidationExecutor {
         )
           return;
 
-        const validationArguments: ValidationArguments = {
-          targetName: object.constructor ? (object.constructor as any).name : undefined,
-          property: metadata.propertyName,
-          object: object,
-          value: value,
-          constraints: metadata.constraints,
-        };
+        const validationArguments = getValidationArguments();
 
         if (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map)) {
           const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);

@@ -573,6 +573,50 @@ validate(user, {
 There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
 must be applied always no matter which group is used.
 
+## Validation option validateIf
+
+If you want an individual validaton decorator to apply conditionally, you can you can use the option `validateIf` available to all validators.
+This allows more granular control than the `@ValidateIf` decorator which toggles all validators on the property, but keep in mind that
+with great power comes great responsibility: Take care not to create unnecessarily complex validation logic.
+
+```typescript
+class MyClass {
+  @Min(5, {
+    message: 'min',
+    validateIf: (obj: MyClass, value) => {
+      return !obj.someOtherProperty || obj.someOtherProperty === 'min';
+    },
+  })
+  @Max(3, {
+    message: 'max',
+    validateIf: (o: MyClass) => !o.someOtherProperty || o.someOtherProperty === 'max',
+  })
+  someProperty: number;
+
+  someOtherProperty: string;
+}
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'min';
+validator.validate(model); // this only validate min
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'max';
+validator.validate(model); // this only validate max
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = '';
+validator.validate(model); // this validate both
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'other';
+validator.validate(model); // this validate none
+```
+
 ## Custom validation classes
 
 If you have custom validation logic you can create a _Constraint class_:

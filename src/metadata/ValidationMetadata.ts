@@ -65,6 +65,11 @@ export class ValidationMetadata {
   context?: any = undefined;
 
   /**
+   * validation will be performed while the result is true
+   */
+  validateIf?: (object: any, value: any) => boolean;
+
+  /**
    * Extra options specific to validation type.
    */
   validationTypeOptions: any;
@@ -87,6 +92,7 @@ export class ValidationMetadata {
       this.always = args.validationOptions.always;
       this.each = args.validationOptions.each;
       this.context = args.validationOptions.context;
+      this.validateIf = args.validationOptions.validateIf;
     }
   }
 }
